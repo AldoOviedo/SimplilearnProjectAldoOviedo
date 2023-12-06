@@ -8,10 +8,30 @@ import { Client } from './client';
 })
 export class ClientService {
 
+  baseURL: string =  "http://localhost:3000/Client"
+
   constructor(public http: HttpClient) { }
 
   loadClientDetails():Observable<Client[]> {
     return this.http.get<Client[]>("http://localhost:3000/Client")
   }
+
+  storeClientMeeting(client: any): any {
+    return this.http.post(this.baseURL, client);
+  }
+
+  deleteMeeting(id: any): any {
+    return this.http.delete(this.baseURL+"/"+id);
+  }
+
+  
+  updateClientMeeting(client: any): any {
+    return this.http.put(this.baseURL+"/"+client.id, client);
+  }
+
+
+
+
+
 }
 

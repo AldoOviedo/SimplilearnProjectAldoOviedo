@@ -13,9 +13,13 @@ export class ClientComponent implements OnInit {
   clientRef = new FormGroup({
 
     name: new FormControl(),
-    JOBID:new FormControl()
+    JOBID:new FormControl(),
+    id:new FormControl(),
+
 
   });
+
+  buttonVariable:string = "Store Category"
 
 
   flag:boolean = false;
@@ -29,7 +33,8 @@ export class ClientComponent implements OnInit {
         this.clients=result;
       },
       error:(error:any)=> {
-        console.log(error)
+        console.log(error);
+       
       },
       complete:()=> {
         console.log("Done!")
@@ -37,34 +42,117 @@ export class ClientComponent implements OnInit {
       })
     }
 
+
+    loadClientInfo() : void {  //for loading data with button. 
+
+      
+  
+        this.clientService.loadClientDetails().subscribe({
+  
+          next:(result:any)=> {
+            this.clients=result;
+  
+          },
+          error:(error:any)=> {
+  
+            console.log(error)
+  
+          },
+          complete:()=> {
+  
+            console.log("done!")
+  
+          }
+        })
+  
+    }
+  
+
     storeClientMeeting(): void {
       let meeting = this.clientRef.value
-      console.log(meeting);
-    }
+      
+    if (this.buttonVariable=="Store Category"){
 
-  loadClientInfo() : void {  //for loading data with button. 
+    
+      this.clientService.storeClientMeeting(meeting).subscribe({
 
-    this.flag=true;
-
-      this.clientService.loadClientDetails().subscribe({
-
-        next:(result:any)=> {
-          this.clients=result;
-
+        next:(result: any)=> {
+          console.log(result);
+          
         },
+
         error:(error:any)=> {
-
-          console.log(error)
-
+          console.log(error);
         },
+
         complete:()=> {
-
-          console.log("done!")
-
+          this.loadClientInfo();
+          
         }
+      
       })
 
-  }
+      this.buttonVariable="Store Category"
+    }else {
+
+      this.clientService.updateClientMeeting(meeting).subscribe({
+
+        next:(result: any)=> {
+          console.log(result);
+          
+        },
+
+        error:(error:any)=> {
+          console.log(error);
+        },
+
+        complete:()=> {
+          this.loadClientInfo();
+          
+        }
+      
+      });
+      
+      this.buttonVariable="Store Category"
+    }
+
+      
+    }
+
+
+    deleteMeeting(id: any): void {
+
+     // console.log(id)
+     this.clientService.deleteMeeting(id).subscribe({
+      next:(result:any)=> {
+        console.log(result)
+      },
+      error: (error: any)=> {
+        console.error();
+        
+      },
+      complete:()=>  {
+        this.loadClientInfo();
+      }
+      
+     })
+
+    }
+
+    updateMeeting(client: any): void {
+
+      //console.log(id)
+
+      this.clientRef.get("name")?.setValue(client.name);
+      this.clientRef.get("JOBID")?.setValue(client.JOBID);
+      this.clientRef.get("id")?.setValue(client.id);
+
+      this.buttonVariable= "Update Meeting";
+      }
+      
+
+    
+
 
  
 

@@ -1,31 +1,46 @@
 <div>
     <h3>Add Meeting:</h3>
     <form [formGroup]= "clientRef" (ngSubmit) = "storeClientMeeting()" >
+        <label>Meeting ID</label>
+        <input type="text" formControlName="id">
+        <br>
         <Label>Client Name:</Label>
         <input type="text" formControlName="name">
         <br>
         <label>Meeting Date:</label>
         <input type="text" formControlName="JOBID">
         <br>
-        <input type="submit" value="Add to list" >
+        <input type="submit" [value]="buttonVariable" >
         <input type="reset" value="Clear">
     </form>
     <h2>Meeting Details</h2>
     <div class="container-fluid">
         <table border="2" cellspacing="10px">
             <tr>
+
+                <th> Meeting ID </th>
               
-                <th>Client names</th>
-                <th>Meeting Date</th>
+                <th> Client names </th>
+                <th> Meeting Date </th>
+                
+                <th> Delete </th>
+                <th> Update </th>
                 
             
             </tr>
             <tr *ngFor="let client of clients ">
-                <td><span>{{client.name}}</span></td>
-                <hr>
-                <td><span>{{client.JOBID}}</span></td>
 
-               
+
+                <td><span>{{client.id}}</span></td>
+                <td><span>{{client.name}}</span></td>
+                
+            
+                <td><span>{{client.JOBID}}</span></td>
+                <td> <input type="button" value="Delete" (click)="deleteMeeting(client.id)"> </td>
+                <td> <input type="button" value="Update" (click)="updateMeeting(client)"> </td> 
+                
+            
+              
             </tr>
 
          

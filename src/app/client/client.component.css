@@ -2,5 +2,18 @@ span {
 
     border: 2;
     border-color: black;
+  
 }
 
+th {
+    padding: auto;
+    text-align: center;
+    align-content: center;
+}
+
+
+td {
+
+    align-content: center;
+    padding: 30px;
+}
